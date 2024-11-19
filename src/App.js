@@ -2,6 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
+const KEY = "AIzaSyCb8IJfZs2wKQ5tfUP87HiJ9EKyWvPPe8U";
 
 function App() {
   const [isScrollHintVisible, setIsScrollHintVisible] = useState(true);
