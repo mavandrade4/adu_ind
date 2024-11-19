@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/adu_ind/static/css/main.a325b9ff.css",
-    "main.js": "/adu_ind/static/js/main.1d2e9fdb.js",
-    "static/js/453.f88617c5.chunk.js": "/adu_ind/static/js/453.f88617c5.chunk.js",
-    "index.html": "/adu_ind/index.html",
-    "main.a325b9ff.css.map": "/adu_ind/static/css/main.a325b9ff.css.map",
-    "main.1d2e9fdb.js.map": "/adu_ind/static/js/main.1d2e9fdb.js.map",
-    "453.f88617c5.chunk.js.map": "/adu_ind/static/js/453.f88617c5.chunk.js.map"
+    "main.css": "/react-gh-pages/static/css/main.a325b9ff.css",
+    "main.js": "/react-gh-pages/static/js/main.adb4c941.js",
+    "static/js/453.f88617c5.chunk.js": "/react-gh-pages/static/js/453.f88617c5.chunk.js",
+    "index.html": "/react-gh-pages/index.html",
+    "main.a325b9ff.css.map": "/react-gh-pages/static/css/main.a325b9ff.css.map",
+    "main.adb4c941.js.map": "/react-gh-pages/static/js/main.adb4c941.js.map",
+    "453.f88617c5.chunk.js.map": "/react-gh-pages/static/js/453.f88617c5.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.a325b9ff.css",
-    "static/js/main.1d2e9fdb.js"
+    "static/js/main.adb4c941.js"
   ]
 }
