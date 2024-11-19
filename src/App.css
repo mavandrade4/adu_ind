@@ -14,6 +14,7 @@ body, html {
 .App {
   background-color: #DDCC77;
   min-height: 100vh;
+  min-width: 100vw;
   display: flex;
 }
 
@@ -54,6 +55,36 @@ button {
 button span {
   margin-left: 8px;
 }
+
+select {
+  background-color: #DDCC77; /* Matches the PlayButton background */
+  color: #332288; /* Matches the theme color */
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  padding: 8px 12px;
+  cursor: pointer;
+  margin-bottom: 1rem; /* Matches inline style in your JSX */
+  font-family: Helvetica, sans-serif; /* Consistent font */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+select:hover {
+  background-color: #bba55f; /* Hover effect similar to scroll-thumb hover */
+  color: #332288; /* Matches the Persona section text */
+}
+
+select:focus {
+  outline: none;
+  box-shadow: 0 0 4px #DDCC77; /* Adds a subtle focus effect */
+}
+
+option {
+  background-color: #117733; /* Dropdown background matches select */
+  color: #DDCC77; /* Text color aligns with theme */
+  padding: 5px 10px;
+}
+
 
 /* Instructions and About Sections */
 .Instructions, .About {
@@ -100,12 +131,12 @@ li {
 
 .Carousel {
   margin: 0;
-  width: calc(100vw - 30vw);
-  max-height: 100vh;
+  width: calc(100vw - 28vw);
+  height: 100vh;
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
-  padding-bottom: 2vw;
+  padding-bottom: 0;
 }
 
 .Personas {
@@ -113,8 +144,8 @@ li {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  gap: 4vw;
-  padding-top: 5rem;
+  gap: 3vw;
+  padding-top: 2rem;
   padding-bottom: 1rem;
 }
 
@@ -122,8 +153,8 @@ li {
 .PersonaWrapper {
   scroll-snap-align: start;
   flex-shrink: 0;
-  width: 80%;
-  padding: 0 2vw;
+  width: 60%;
+  padding-left: 1vw;
 }
 
 .PersonaContainer {
@@ -178,12 +209,21 @@ li {
   text-align: left;
   font-size: 1.1rem;
   line-height: 1.5;
+  margin-bottom: 0;
 }
 
 /* Image Styling */
 img {
   width: 40%;
   height: auto;
+  border-radius: 15px; /* Rounds the corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition for hover effects */
+}
+
+img:hover {
+  transform: scale(1.05); /* Slight zoom effect on hover */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Enhances shadow on hover */
 }
 
 /* Custom Scrollbar Styling */

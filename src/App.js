@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from "react";
 import axios from "axios";
 import "./App.css";
 
-const KEY = "";
 
 function App() {
   const [isScrollHintVisible, setIsScrollHintVisible] = useState(true);
@@ -188,17 +187,26 @@ function App() {
     }
   };
 
+  const handleImageClick = (alt) => {
+    setAltText(alt);
+  };
+
+  const clearAltText = () => {
+    setAltText("");
+  };
+
   const translateContent = async (contentKey, text, lang) => {
     try {
-      const API_KEY = "AIzaSyDhFZ_NKPAbW6iFZFflVJEg0Cr_p0rjSqY";
       const url = `https://translation.googleapis.com/language/translate/v2`;
 
-      const response = await axios.post(url, {
-        q: text,
-        target: lang,
-        format: "text",
-        key: API_KEY,
-      });
+      const response = await axios.post(
+        `${url}?key=${KEY}`, 
+        {
+          q: text,
+          target: lang,
+          format: "text",
+        }
+      );
 
       const translatedText = response.data.data.translations[0].translatedText;
       setTranslations((prev) => ({
@@ -215,36 +223,55 @@ function App() {
   const handleLanguageChange = async (event) => {
     const newLanguage = event.target.value;
     setSelectedLanguage(newLanguage);
-
-    await translateContent(
-      "instructions",
-      [
+  
+    try {
+      const API_KEY = KEY;
+      const url = `https://translation.googleapis.com/language/translate/v2`;
+  
+      const instructionsText = [
         "Choose one card",
         "Read carefully the description of the persona",
         "What accessibility guidelines would you use when developing a website for the user selected?",
         "Consult W3C and list the most appropriate guidelines to make a website design accessible to the user described",
-      ],
-      newLanguage
-    );
-
-    await translateContent(
-      "about",
-      "The accessibility cards is a set of 16 personas illustrating users with diverse disabilities. The personas include users described in the book «A web for everyone: Designing accessible user experiences» authored by Horton and Quesenbery (2014) and presented in W3C user stories (at: https://www.w3.org/WAI/people-use-web/user-stories/). The contents are shared with creative commons license with attribution. The cards have been developed thanks to the financial support of Teach Access. About Teach Access: Teach Access is a unique collaboration among members of higher education, the technology industry and advocates for accessibility, with a shared goal of making technology broadly accessible by infusing accessibility into higher education, with enhanced training and collaborations with people with disabilities. Teach Access includes members from leading tech companies, academic institutions and disability advocacy organizations and other non-profit institutions. Teach Access operates as a fiscal sponsorship fund at the Silicon Valley Community Foundation (SVCF). To learn more visit teachaccess.org or email info@teachaccess.org.",
-      newLanguage
-    );
-
-    const personaDescriptions = personaData.map(
-      (persona) => persona.description
-    );
-    await translateContent("personas", personaDescriptions, newLanguage);
-  };
-
-  const handleImageClick = (alt) => {
-    setAltText(alt); // Set the alt text of the clicked image
-  };
-
-  const clearAltText = () => {
-    setAltText(""); // Clear the alt text when needed
+      ];
+      const instructionsResponse = await axios.post(`${url}?key=${API_KEY}`, {
+        q: instructionsText,
+        target: newLanguage,
+        format: "text",
+      });
+  
+      const translatedInstructions = instructionsResponse.data.data.translations.map(
+        (item) => item.translatedText
+      );
+  
+      const aboutText =
+        "The accessibility cards is a set of 16 personas illustrating users with diverse disabilities. The personas include users described in the book «A web for everyone: Designing accessible user experiences» authored by Horton and Quesenbery (2014) and presented in W3C user stories (at: https://www.w3.org/WAI/people-use-web/user-stories/). The contents are shared with creative commons license with attribution. The cards have been developed thanks to the financial support of Teach Access. About Teach Access: Teach Access is a unique collaboration among members of higher education, the technology industry and advocates for accessibility, with a shared goal of making technology broadly accessible by infusing accessibility into higher education, with enhanced training and collaborations with people with disabilities. Teach Access includes members from leading tech companies, academic institutions and disability advocacy organizations and other non-profit institutions. Teach Access operates as a fiscal sponsorship fund at the Silicon Valley Community Foundation (SVCF). To learn more visit teachaccess.org or email info@teachaccess.org.";
+      const aboutResponse = await axios.post(`${url}?key=${API_KEY}`, {
+        q: aboutText,
+        target: newLanguage,
+        format: "text",
+      });
+      const translatedAbout = aboutResponse.data.data.translations[0].translatedText;
+  
+      const personaDescriptions = personaData.map((persona) => persona.description);
+      const personasResponse = await axios.post(`${url}?key=${API_KEY}`, {
+        q: personaDescriptions,
+        target: newLanguage,
+        format: "text",
+      });
+  
+      const translatedPersonas = personasResponse.data.data.translations.map(
+        (item) => item.translatedText
+      );
+  
+      setTranslations({
+        instructions: translatedInstructions,
+        about: translatedAbout,
+        personas: translatedPersonas,
+      });
+    } catch (error) {
+      console.error("Error during translation:", error);
+    }
   };
 
   return (
@@ -252,8 +279,8 @@ function App() {
       <nav className="Nav">
         <h1 className="Title">Accessibility Cards</h1>
         <div className="AuthorDate">
-          <h4 className="Author">Vivian Motti</h4>
-          <h4 className="Date">November 12, 2018</h4>
+          <h4 className="Author">Vivian Genaro Motti and Esther Dura</h4>
+          <h4 className="Date">2021</h4>
         </div>
 
         <select
@@ -275,7 +302,7 @@ function App() {
             style={{ cursor: "pointer" }}
           >
             {translations.instructions
-              ? "Translated Instructions"
+              ? "Instructions"
               : "Instructions"}
             <span style={{ marginLeft: "8px" }}>
               {isInstructionsVisible ? "-" : "+"}
@@ -311,7 +338,7 @@ function App() {
           {isAboutVisible && (
             <p>
               {translations.about ||
-                "The accessibility cards is a set of 16 personas illustrating users with diverse disabilities. The personas include users described in the book «A web for everyone: Designing accessible user experiences» authored by Horton and Quesenbery (2014) and presented in W3C user stories (at: https://www.w3.org/WAI/people-use-web/user-stories/). The contents are shared with creative commons license with attribution. The cards have been developed thanks to the financial support of Teach Access. About Teach Access: Teach Access is a unique collaboration among members of higher education, the technology industry and advocates for accessibility, with a shared goal of making technology broadly accessible by infusing accessibility into higher education, with enhanced training and collaborations with people with disabilities. Teach Access includes members from leading tech companies, academic institutions and disability advocacy organizations and other non-profit institutions. Teach Access operates as a fiscal sponsorship fund at the Silicon Valley Community Foundation (SVCF). To learn more visit teachaccess.org or email info@teachaccess.org."}
+                "The card contents are extracted from: Horton, S., &	Quesenbery,	W. (2014). A	web	for	everyone:	Designing	accessible	user	experiences.Rosenfeld	Media. https://www.w3.org/WAI/people-use-web/user-stories/	"}
             </p>
           )}
         </section>
@@ -331,7 +358,7 @@ function App() {
                 <img
                   src={`img/g${index + 1}.png`}
                   alt={persona.alt}
-                  onClick={() => handleImageClick(persona.alt)} // Set alt text on click
+                  onClick={() => handleImageClick(persona.alt)}
                 />
                 <div className="Persona" id={persona.id}>
                   <div className="PersonaTitle">
